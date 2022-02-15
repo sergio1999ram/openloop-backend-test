@@ -16,7 +16,6 @@ export const listUsers: ListUsers = async (req, res) => {
 
 export const createUser: CreateUser = async (req, res) => {
     const { firstName, lastName, note } = req.body;
-
     try {
         const user = await UserSchema.create({ firstName, lastName, note });
         res.status(201).json({ ok: true, user });
