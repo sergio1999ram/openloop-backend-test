@@ -5,10 +5,12 @@ import userRoutes from './routes/user.routes';
 
 const app = express();
 
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use('/user', userRoutes);
 
+// Routes
 app.get('/', (req: Request, res: Response): void => {
     res.status(200).json({ message: 'Hello world from Node with Typescript!' })
 })
