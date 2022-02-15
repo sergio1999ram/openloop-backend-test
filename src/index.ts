@@ -13,8 +13,8 @@ app.use('/user', userRoutes);
 // Routes
 app.get('/', (req: Request, res: Response): void => {
     res.status(200).json({ message: 'Hello world from Node with Typescript!' })
-})
+});
 
 app.listen(3001, (): void => {
     console.log('Server started on port 3001');
-})
+});
