@@ -15,42 +15,38 @@ describe('Users', () => {
             chai.request(app)
                 .get('/user')
                 .send({})
-                .end((err, res) => {
-                    console.log(res.body);
-                    expect(err).to.be.null;
-                    expect(res).to.have.statusCode(200);
-
+                .then(res => {
                     const { users } = res.body;
-                    usersList = users;
-                    expect(users).to.be.a('array');
-
+                    expect(users).to.be.an('array');
                     done();
-                })
+                }).catch(error => done(error))
         });
     });
     describe('CREATE USER', () => {
-        it.only('should create a new user', done => {
+        it('should create a new user', done => {
             chai.request(app)
                 .post('/user')
                 .send({ firstName: 'Maria Fernanda', note: 'Created with unit testing', lastName: 'Rodriguez' })
-                .end((err, res) => {
-                    expect(err).to.be.null;
+                .then(res => {
                     const { ok, user } = res.body;
-                    createdUser = user;
-
+                    expect(res.status).to.be.equal(201)
+                    expect(user).to.be.an('object');
                     expect(ok).to.be.true;
-                    expect(res.body).to.have.a('object');
+
+                    createdUser = user;
                     done();
-                })
+                }).catch(err => done(err));
         })
         it('should not create a new user', done => {
             chai.request(app)
                 .post('/user')
                 .send({ firstName: 'Sergio', lastName: 'Ramirez' })
-                .end((err, res) => {
-                    expect(err).to.not.be.null;
+                .then((res: any) => {
                     done();
                 })
+                .catch(err => {
+                    done(err.errors._message);
+                });
         })
     });
     describe('UPDATE USER', () => {
